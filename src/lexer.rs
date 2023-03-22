@@ -14,7 +14,7 @@ fn char_to_token((i, c): (usize, char)) -> Option<Token> {
   }
 }
 
-pub fn string_to_token_vec(code: &str) -> Vec<Token> {
+pub fn lex(code: &str) -> Vec<Token> {
   code.chars().enumerate().filter_map(char_to_token).collect()
 }
 
@@ -24,9 +24,9 @@ mod tests {
   use super::*;
 
   #[test]
-  fn test_string_to_token_vec() {
+  fn test_lex() {
     let code: &str = "++>++<++[>++<++-]";
-    let tokens: Vec<Token> = string_to_token_vec(code);
+    let tokens: Vec<Token> = lex(code);
     assert_eq!(
       tokens,
       vec![

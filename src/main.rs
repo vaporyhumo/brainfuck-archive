@@ -1,5 +1,5 @@
 mod lexer;
-use lexer::string_to_token_vec;
+use lexer::lex;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Token {
@@ -14,7 +14,7 @@ pub enum Token {
 }
 
 mod parser;
-use parser::token_vec_to_node_vec;
+use parser::parse;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Node {
@@ -28,8 +28,9 @@ pub enum Node {
 }
 
 fn main() {
-  let code: &str = "+++++[-]";
-  let tokens: Vec<Token> = string_to_token_vec(code);
-  let nodes: Vec<Node> = token_vec_to_node_vec(tokens);
+  //let code: &str = "+++++[-]";
+  let code: &str = "+++++";
+  let tokens: Vec<Token> = lex(code);
+  let nodes: Vec<Node> = parse(tokens);
   println!("{:?}", nodes);
 }
