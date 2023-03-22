@@ -1,4 +1,38 @@
-use crate::Token;
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Token {
+  Plus,
+  Minus,
+  Right,
+  Left,
+  OpenBracket,
+  CloseBracket(usize),
+  Dot,
+  Comma,
+}
+
+pub struct BalancedTokens {
+  pub tokens: Vec<Token>,
+}
+
+impl BalancedTokens {
+  pub fn new(tokens: Vec<Token>) -> Self {
+    let mut brackets: usize = 0;
+
+    for token in tokens.iter() {
+      match token {
+        Token::OpenBracket => brackets += 1,
+        Token::CloseBracket(_) => brackets -= 1,
+        _ => (),
+      }
+    }
+
+    if brackets != 0 {
+      panic!("Unbalanced brackets");
+    }
+
+    Self { tokens }
+  }
+}
 
 fn char_to_token((i, c): (usize, char)) -> Option<Token> {
   match c {
@@ -14,8 +48,8 @@ fn char_to_token((i, c): (usize, char)) -> Option<Token> {
   }
 }
 
-pub fn lex(code: &str) -> Vec<Token> {
-  code.chars().enumerate().filter_map(char_to_token).collect()
+pub fn lex(code: &str) -> BalancedTokens {
+  BalancedTokens::new(code.chars().enumerate().filter_map(char_to_token).collect())
 }
 
 // tests
@@ -26,7 +60,7 @@ mod tests {
   #[test]
   fn test_lex() {
     let code: &str = "++>++<++[>++<++-]";
-    let tokens: Vec<Token> = lex(code);
+    let tokens: Vec<Token> = lex(code).tokens;
     assert_eq!(
       tokens,
       vec![

@@ -1,20 +1,10 @@
 mod lexer;
-use lexer::lex;
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum Token {
-  Plus,
-  Minus,
-  Right,
-  Left,
-  OpenBracket,
-  CloseBracket(usize),
-  Dot,
-  Comma,
-}
+use lexer::{BalancedTokens, Token, lex};
 
 mod parser;
 use parser::parse;
+
+
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Node {
@@ -30,7 +20,7 @@ pub enum Node {
 fn main() {
   //let code: &str = "+++++[-]";
   let code: &str = "+++++";
-  let tokens: Vec<Token> = lex(code);
-  let nodes: Vec<Node> = parse(tokens);
+  let tokens: BalancedTokens = lex(code);
+  let nodes: Vec<Node> = parse(tokens.tokens);
   println!("{:?}", nodes);
 }
