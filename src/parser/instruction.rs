@@ -1,4 +1,4 @@
-use crate::{Token, Node};
+use crate::{Node, Token};
 
 pub(super) fn token_to_node(token: Token) -> Node {
   match token {
@@ -20,7 +20,7 @@ pub(super) fn parse_instruction(tokens: Vec<Token>) -> Option<(Node, Vec<Token>)
     Token::Plus | Token::Minus | Token::Right | Token::Left | Token::Dot | Token::Comma => {
       Some((token_to_node(head), tail))
     }
-    _ => None
+    _ => None,
   }
 }
 
