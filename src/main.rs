@@ -9,6 +9,8 @@ mod reader;
 mod interpreter;
 use interpreter::run;
 
+mod compilers;
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum Node {
   Plus,
@@ -27,8 +29,9 @@ pub struct VM {
 }
 
 fn main() {
-  let code: &str = ",.,.,.";
+  let code: &str = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.";
   let tokens: BalancedTokens = lex(code);
   let nodes: Vec<Node> = parse(tokens.tokens);
-  run(nodes);
+  run(nodes.clone());
+  println!("{}", compilers::ruby::compile(nodes));
 }
